@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue-manager-service
+  namespace: k8sdeploy
+  labels:
+    app: queue-manager-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: queue-manager-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: queue-manager-service
+    spec:
+      hostAliases:
+        - ip: "192.168.1.67"
+          hostnames:
+            - "cob.cobden.net"
+      imagePullSecrets:
+        - name: docker-registry-secret
+      containers:
+        - name: todo-service
+          image: containers.chewed-k8s.net/k8sdeploy/queue-manager-service:latest
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+          ports:
+            - containerPort: 3000
+            - containerPort: 80
+          env:
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: queue-manager-service-secrets
+                  key: vault-token
+            - name: MONGO_COLLECTION_QUEUES
+              valueFrom:
+                secretKeyRef:
+                  name: queue-manager-service-secrets
+                  key: mongo-queue-collection
+            - name: MONGO_DB
+              valueFrom:
+                secretKeyRef:
+                  name: queue-manager-service-secrets
+                  key: mongo-db
+            - name: MONGO_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: queue-manager-service-secrets
+                  key: mongo-host
+            - name: VAULT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: queue-manager-service-secrets
+                  key: vault-host
+            - name: MONGO_VAULT_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: queue-manager-service-secrets
+                  key: mongo-vault-path
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: queue-manager-service
+  namespace: k8sdeploy
+  labels:
+    app: agent-service
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: queue-manager-service
+
+
