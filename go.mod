@@ -4,12 +4,11 @@ go 1.21
 
 require (
 	github.com/bugfixes/go-bugfixes v0.9.7
-	github.com/caarlos0/env/v8 v8.0.0
 	github.com/google/uuid v1.4.0
 	github.com/hashicorp/vault/sdk v0.10.2
 	github.com/joho/godotenv v1.5.1
 	github.com/k8sdeploy/protobufs v0.0.0-20230923213413-7d6744bffeb3
-	github.com/keloran/go-config v0.4.0
+	github.com/keloran/go-config v0.4.1
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/rs/cors v1.10.1
@@ -17,6 +16,7 @@ require (
 )
 
 require (
+	github.com/caarlos0/env/v8 v8.0.0 // indirect
 	github.com/cenkalti/backoff/v3 v3.2.2 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
