@@ -25,7 +25,7 @@ func (q *Queue) Start() error {
 
 	conn, err := amqp091.Dial(conString)
 	if err != nil {
-		return logs.Errorf("queue: unable to dial: %w, %s", err, conString)
+		return logs.Errorf("queue: unable to dial: %v, %s", err, conString)
 	}
 
 	fmt.Sprintf("%+v", conn)
