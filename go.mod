@@ -3,7 +3,7 @@ module github.com/k8sdeploy/queue-manager-service
 go 1.21
 
 require (
-	github.com/bugfixes/go-bugfixes v0.9.7
+	github.com/bugfixes/go-bugfixes v0.9.8
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/google/uuid v1.4.0
 	github.com/hashicorp/vault/sdk v0.10.2

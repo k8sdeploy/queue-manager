@@ -29,16 +29,16 @@ func NewMaster(cfg ConfigBuilder.Config) *Master {
 func (m *Master) Build() (*AccountDetails, error) {
 	v, err := m.CreateVHost()
 	if err != nil {
-		return nil, logs.Errorf("master: unable to create vhost: %w", err)
+		return nil, logs.Errorf("master: unable to create vhost: %v", err)
 	}
 
 	u, p, err := m.CreateAccount(v)
 	if err != nil {
-		return nil, logs.Errorf("master: unable to create account: %w", err)
+		return nil, logs.Errorf("master: unable to create account: %v", err)
 	}
 
 	if err := m.AssignVHost(u, v); err != nil {
-		return nil, logs.Errorf("master: unable to assign vhost: %w", err)
+		return nil, logs.Errorf("master: unable to assign vhost: %v", err)
 	}
 
 	return &AccountDetails{
@@ -53,7 +53,7 @@ func (m *Master) CreateAccount(vhost string) (string, string, error) {
 	pw := uuid.NewString()
 	client := &http.Client{}
 	apiURL := fmt.Sprintf("https://%s:%d/api/users/%s", m.Rabbit.ManagementHost, m.Rabbit.Port, username)
-	if m.Config.Queue.Port == 0 {
+	if m.Config.Rabbit.Port == 0 {
 		apiURL = fmt.Sprintf("https://%s/api/users/%s", m.Rabbit.ManagementHost, username)
 	}
 
@@ -67,18 +67,18 @@ func (m *Master) CreateAccount(vhost string) (string, string, error) {
 		Password: pw,
 		Tags:     "administrator",
 	}); err != nil {
-		return "", "", logs.Errorf("queue: unable to marshal request: %w", err)
+		return "", "", logs.Errorf("queue: unable to marshal request: %v", err)
 	}
 
 	req, err := http.NewRequest("PUT", apiURL, buf)
 	if err != nil {
-		return "", "", logs.Errorf("queue: unable to create request: %w", err)
+		return "", "", logs.Errorf("queue: unable to create request: %v", err)
 	}
 	req.SetBasicAuth(m.Rabbit.Username, m.Rabbit.Password)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", "", logs.Errorf("queue: unable to create request: %w", err)
+		return "", "", logs.Errorf("queue: unable to create request: %v", err)
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
@@ -92,9 +92,9 @@ func (m *Master) CreateAccount(vhost string) (string, string, error) {
 func (m *Master) CreateVHost() (string, error) {
 	vhost := uuid.NewString()
 	client := &http.Client{}
-	apiURL := fmt.Sprintf("https://%s:%d/api/vhosts/%s", m.Queue.ManagementHost, m.Queue.Port, vhost)
-	if m.Config.Queue.Port == 0 {
-		apiURL = fmt.Sprintf("https://%s/api/vhosts/%s", m.Queue.ManagementHost, vhost)
+	apiURL := fmt.Sprintf("https://%s:%d/api/vhosts/%s", m.Rabbit.ManagementHost, m.Rabbit.Port, vhost)
+	if m.Config.Rabbit.Port == 0 {
+		apiURL = fmt.Sprintf("https://%s/api/vhosts/%s", m.Rabbit.ManagementHost, vhost)
 	}
 
 	type vHostDetails struct {
@@ -106,18 +106,18 @@ func (m *Master) CreateVHost() (string, error) {
 		Description: "vhost created by queue-manager-service",
 		Tags:        "production",
 	}); err != nil {
-		return "", logs.Errorf("CreateVHost: unable to marshal request: %w", err)
+		return "", logs.Errorf("CreateVHost: unable to marshal request: %v", err)
 	}
 
 	req, err := http.NewRequest("PUT", apiURL, buf)
 	if err != nil {
-		return "", logs.Errorf("qCreateVHostueue: unable to create request: %w", err)
+		return "", logs.Errorf("qCreateVHostueue: unable to create request: %v", err)
 	}
-	req.SetBasicAuth(m.Queue.Username, m.Queue.Password)
+	req.SetBasicAuth(m.Rabbit.Username, m.Rabbit.Password)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", logs.Errorf("CreateVHost: unable to create request: %w", err)
+		return "", logs.Errorf("CreateVHost: unable to create request: %v", err)
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
@@ -130,9 +130,9 @@ func (m *Master) CreateVHost() (string, error) {
 
 func (m *Master) AssignVHost(username, vhost string) error {
 	client := &http.Client{}
-	apiURL := fmt.Sprintf("https://%s:%d/api/permissions/%s/%s", m.Queue.ManagementHost, m.Queue.Port, vhost, username)
-	if m.Config.Queue.Port == 0 {
-		apiURL = fmt.Sprintf("https://%s/api/permissions/%s/%s", m.Queue.ManagementHost, vhost, username)
+	apiURL := fmt.Sprintf("https://%s:%d/api/permissions/%s/%s", m.Rabbit.ManagementHost, m.Rabbit.Port, vhost, username)
+	if m.Config.Rabbit.Port == 0 {
+		apiURL = fmt.Sprintf("https://%s/api/permissions/%s/%s", m.Rabbit.ManagementHost, vhost, username)
 	}
 
 	type perms struct {
@@ -146,18 +146,18 @@ func (m *Master) AssignVHost(username, vhost string) error {
 		Write:     ".*",
 		Read:      ".*",
 	}); err != nil {
-		return logs.Errorf("CreateVHost: unable to marshal request: %w", err)
+		return logs.Errorf("CreateVHost: unable to marshal request: %v", err)
 	}
 
 	req, err := http.NewRequest("PUT", apiURL, buf)
 	if err != nil {
-		return logs.Errorf("qCreateVHostueue: unable to create request: %w", err)
+		return logs.Errorf("qCreateVHostueue: unable to create request: %v", err)
 	}
-	req.SetBasicAuth(m.Queue.Username, m.Queue.Password)
+	req.SetBasicAuth(m.Rabbit.Username, m.Rabbit.Password)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		return logs.Errorf("CreateVHost: unable to create request: %w", err)
+		return logs.Errorf("CreateVHost: unable to create request: %v", err)
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
