@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.5.0
 	github.com/hashicorp/vault/sdk v0.10.2
 	github.com/joho/godotenv v1.5.1
-	github.com/k8sdeploy/protobufs v0.0.0-20230923213413-7d6744bffeb3
+	github.com/k8sdeploy/protobufs v0.0.1
 	github.com/keloran/go-config v0.4.2
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/rabbitmq/amqp091-go v1.9.0
