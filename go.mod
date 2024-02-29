@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/vault/sdk v0.11.0
 	github.com/joho/godotenv v1.5.1
 	github.com/k8sdeploy/protobufs v0.0.2
-	github.com/keloran/go-config v0.4.3
+	github.com/keloran/go-config v0.4.4
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/rs/cors v1.10.1
