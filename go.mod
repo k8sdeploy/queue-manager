@@ -12,7 +12,7 @@ require (
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/rs/cors v1.10.1
-	google.golang.org/grpc v1.62.0
+	google.golang.org/grpc v1.62.1
 )
 
 require (
