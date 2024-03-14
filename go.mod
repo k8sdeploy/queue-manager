@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/bugfixes/go-bugfixes v0.10.0
 	github.com/google/uuid v1.6.0
-	github.com/hashicorp/vault/sdk v0.11.0
+	github.com/hashicorp/vault/sdk v0.11.1
 	github.com/joho/godotenv v1.5.1
 	github.com/k8sdeploy/protobufs v0.0.2
 	github.com/keloran/go-config v0.5.1
