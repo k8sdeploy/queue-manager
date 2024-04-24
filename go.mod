@@ -1,6 +1,7 @@
 module github.com/k8sdeploy/queue-manager-service
 
 go 1.21
+toolchain go1.22.0
 
 require (
 	github.com/bugfixes/go-bugfixes v0.10.0
@@ -9,7 +10,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/k8sdeploy/protobufs v0.0.2
 	github.com/keloran/go-config v0.5.1
-	github.com/keloran/go-healthcheck v1.2.1
+	github.com/keloran/go-healthcheck v1.2.2
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/rs/cors v1.11.0
 	google.golang.org/grpc v1.63.2
