@@ -11,7 +11,7 @@ require (
 	github.com/keloran/go-config v0.5.4
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/rabbitmq/amqp091-go v1.10.0
-	github.com/rs/cors v1.11.0
+	github.com/rs/cors v1.11.1
 	google.golang.org/grpc v1.66.0
 )
 
