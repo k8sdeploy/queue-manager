@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/bugfixes/go-bugfixes v0.14.0
 	github.com/google/uuid v1.6.0
-	github.com/hashicorp/vault/sdk v0.19.0
+	github.com/hashicorp/vault/sdk v0.20.0
 	github.com/joho/godotenv v1.5.1
 	github.com/k8sdeploy/protobufs v0.0.2
 	github.com/keloran/go-config v0.5.4
